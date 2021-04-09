@@ -13,7 +13,7 @@ contract CarSeller {
     mapping (address=>uint256) inventory;
     Record[] public CarSalesRecords;
 
-    constructor() payable {
+    constructor() {
         seller = msg.sender;
     }
 
