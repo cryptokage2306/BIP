@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.0;
 
+/// @title An ERC token for Gold
 contract GoldERC20 {
     /// @dev Returns the amount of tokens in existence.
     uint256 public totalSupply;
@@ -13,7 +14,6 @@ contract GoldERC20 {
 
     /// @dev Returns the amount of tokens owned by `account`
     mapping(address => uint256) public balanceOf;
-
     /// @dev Returns the remaining number of tokens that `spender` will be allowed to spend on behalf of `owner` through {transferFrom}. This is zero by default.
     mapping(address => mapping(address => uint256)) public allowances;
 
