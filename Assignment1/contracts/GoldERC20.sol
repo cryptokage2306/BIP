@@ -11,15 +11,12 @@ contract GoldERC20 {
     string public symbol = 'GLD20';
     /// @dev Returns the decimals places of the token.
     uint8 public decimals = 8;
-
     /// @dev Returns the amount of tokens owned by `account`
     mapping(address => uint256) public balanceOf;
     /// @dev Returns the remaining number of tokens that `spender` will be allowed to spend on behalf of `owner` through {transferFrom}. This is zero by default.
     mapping(address => mapping(address => uint256)) public allowances;
-
     /// @dev Emitted when `value` tokens are moved from one account (`from`) to another (`to`).
     event Transfer(address indexed from, address indexed to, uint256 value);
-
     /// @dev Emitted when the allowance of a `spender` for an `owner` is set by a call to {approve}. `value` is the new allowance.
     event Approval(
         address indexed owner,
@@ -39,9 +36,7 @@ contract GoldERC20 {
         require(amount <= balanceOf[msg.sender]);
         balanceOf[msg.sender] -= amount;
         balanceOf[_to] += amount;
-
         emit Transfer(msg.sender, _to, amount);
-
         return true;
     }
 
@@ -58,9 +53,7 @@ contract GoldERC20 {
         balanceOf[_from] -= _value;
         balanceOf[_to] += _value;
         allowances[_from][msg.sender] -= _value;
-
         emit Transfer(_from, _to, _value);
-
         return true;
     }
 
