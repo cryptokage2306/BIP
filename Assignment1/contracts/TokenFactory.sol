@@ -5,15 +5,23 @@ import "./Token.sol";
 import "openzeppelin-solidity/contracts/access/Ownable.sol";
 
 contract TokenFactory is Ownable {
+    /// @dev struct to store minter and burner details
     struct TokenData {
         address minter;
         address burner;
     }
-
+    /// @dev Store minter and burner details of token
     mapping(address => TokenData) tokenMapping;
-
+    /// @dev Store all the tokens address
+    /// @return address of tokens
     Token[] public tokenAddresses;
 
+    /// @notice Explain to an end user what this does
+    /// @dev Explain to a developer any extra details
+    /// @param _token a parameter is an address to token
+    /// @param _from sender address
+    /// @param _to receiver address
+    /// @param _value amount sent
     event Transfer(
         address indexed _token,
         address indexed _from,
@@ -21,6 +29,8 @@ contract TokenFactory is Ownable {
         uint256 _value
     );
 
+    /// @dev Check whether token is present or not
+    /// @param _token a parameter just like in doxygen (must be followed by parameter name)
     modifier isTokenPresent(address _token) {
         require(
             tokenMapping[_token].minter != address(0),
@@ -33,6 +43,13 @@ contract TokenFactory is Ownable {
         _;
     }
 
+    /// @dev Create token
+    /// @param _name a parameter is name of the token
+    /// @param _symbol a parameter is a symbol of token
+    /// @param _cap a parameter is which set cap on total supply of given token
+    /// @param _minter a parameter is an address whose balance we need to check
+    /// @param _burner a parameter is an address whose balance we need to check
+    /// @return Token objects
     function createToken(
         string memory _name,
         string memory _symbol,
@@ -48,6 +65,10 @@ contract TokenFactory is Ownable {
         return td;
     }
 
+    /// @dev provides balance of token related to desired token
+    /// @param _token a parameter is an address to token
+    /// @param _owner a parameter is an address whose balance we need to check
+    /// @return uint balance of address wrt token
     function balanceOf(address _token, address _owner)
         external
         isTokenPresent(_token)
@@ -61,6 +82,10 @@ contract TokenFactory is Ownable {
         return abi.decode(result, (uint256));
     }
 
+    /// @dev Pause/unpause the token minting and burning
+    /// @param _token a parameter is an address to token
+    /// @param _pause a parameter is an boolean value to tell to pause/unpause
+    /// @return success boolean value
     function pauseToken(address _token, bool _pause)
         external
         onlyOwner
@@ -78,6 +103,11 @@ contract TokenFactory is Ownable {
         return false;
     }
 
+    /// @dev Mint `amount` tokens from the given address.
+    /// @param _token a parameter is an address to token
+    /// @param _to a parameter is an address to which we will mint tokens
+    /// @param _value a parameter amount of token minted
+    /// @return success boolean value
     function mintCoins(
         address _token,
         address _to,
@@ -100,6 +130,11 @@ contract TokenFactory is Ownable {
         return true;
     }
 
+    /// @dev Destroys `amount` tokens from the given address.
+    /// @param _token a parameter is an address to token
+    /// @param _to a parameter is an address from which we will burn tokens
+    /// @param _value a parameter amount of token burn
+    /// @return success boolean value
     function burnCoins(
         address _token,
         address _to,
@@ -122,6 +157,8 @@ contract TokenFactory is Ownable {
         return true;
     }
 
+    /// @dev gives sum of all the tokens total supply
+    /// @return uint totalSupply
     function getTotalSupplyOfTokens()
         public returns (uint256 totalSupply)
     {
