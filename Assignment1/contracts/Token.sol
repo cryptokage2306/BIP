@@ -41,7 +41,7 @@ contract Token is ERC20, Ownable, ERC20Pausable, ERC20Capped, AccessControl {
     /// @dev To pause any token minting and burning
     /// @param pause_ to determine whether pause/unpause
     /// @return success
-    function handlePause(bool pause_) external returns (bool success) {
+    function handlePause(bool pause_) external onlyOwner returns (bool success) {
         if (pause_) {
             _pause();
         } else {
@@ -50,29 +50,16 @@ contract Token is ERC20, Ownable, ERC20Pausable, ERC20Capped, AccessControl {
         return true;
     }
 
-    /// @dev Called by tokenFactory minter is free from modifier
-    /// @param recipient is recipient address
-    /// @param amount to amount to mint
-    function mintCoinsTokenFactory(address recipient, uint256 amount) public {
-        _mint(recipient, amount);
-    }
-    /// @dev Called by tokenFactory burner is free from modifier
-    /// @param recipient is recipient address
-    /// @param amount to amount to burn
-    function burnCoinsTokenFactory(address recipient, uint256 amount) public {
-        _burn(recipient, amount);
-    }
-
     /// @param recipient is recipient address
     /// @param amount to amount to mint
     function mintCoins(address recipient, uint256 amount) external onlyMinter {
-        mintCoinsTokenFactory(recipient, amount);
+        _mint(recipient, amount);
     }
 
     /// @param recipient is recipient address
     /// @param amount to amount to burn
     function burnCoins(address recipient, uint256 amount) external onlyBurner {
-        burnCoinsTokenFactory(recipient, amount);
+        _burn(recipient, amount);
     }
     /// @dev Used to check ERC20Pausable condition before transfer
     /// @param from sender address
