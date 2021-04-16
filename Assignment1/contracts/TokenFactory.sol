@@ -9,19 +9,6 @@ contract TokenFactory is Ownable {
     /// @return address of tokens
     Token[] public tokenAddresses;
 
-    /// @notice Explain to an end user what this does
-    /// @dev Explain to a developer any extra details
-    /// @param _token a parameter is an address to token
-    /// @param _from sender address
-    /// @param _to receiver address
-    /// @param _value amount sent
-    event Transfer(
-        address indexed _token,
-        address indexed _from,
-        address indexed _to,
-        uint256 _value
-    );
-
     /// @dev Create token
     /// @param _name a parameter is name of the token
     /// @param _symbol a parameter is a symbol of token
@@ -53,16 +40,6 @@ contract TokenFactory is Ownable {
         }
         require(address(td) != address(0), 'Token not found');
         return td;
-    }
-
-    /// @param _token a parameter is an address to token
-    /// @param _owner a parameter is an address whose balance we need to check
-    function balanceOf(address _token, address _owner)
-        external view
-        returns (uint256 balance)
-    {
-        Token td = findToken(_token);
-        return td.balanceOf(_owner);
     }
 
     /// @dev Pause/unpause the token minting and burning
